@@ -13,25 +13,37 @@ A sample created from NUnit results.xml available [here](http://extentreports.co
 | Arg | Details |
 |----|--------------------------------------------------------------------|
 | -i | TestRunner results file |
+| -d | TestRunner results directory to process multiple files at once |
 | -o | Report output directory |
-| -r | List of Reporters (avent, bdd, cards, tabular, html, v3html, klov) |
-| -p | TestRunner (NUnit) |
+| -r | List of Reporters [html, v3html], html (default)|
+| -p | TestRunner [NUnit] |
 
 
-### Usage
+### Processing a single file
 
 The default usage creates a HTML report using the default version 4 `ExtentHtmlReporter`:
 
 ```
-extent -i result.xml -o reports/
+extent -i results/nunit.xml -o results/
 ```
 
-It is possible to specify the reporters or outputs by specifying them using `-r`:
+### Processing multiple files at once
+
+To process multiple files at once, use `-d` to specify the directory where the files are present.
 
 ```
-extent i- results.xml -o reports/ -r html -r klov -r v3html
+extent -d results/ -o results/
 ```
 
+### Specifying the reporter to use:
+
+It is possible to specify the reporter or outputs by specifying them using `-r`:
+
+```
+extent -i results/nunit.xml -o results/ -r v3html
+```
+
+Do you use `html` and `v3html` reporters at once as this may result in clashes.
 
 ### License
 
