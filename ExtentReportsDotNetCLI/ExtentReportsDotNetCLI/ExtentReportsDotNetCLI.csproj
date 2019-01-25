@@ -36,8 +36,8 @@
     <Reference Include="DnsClient, Version=1.0.7.0, Culture=neutral, PublicKeyToken=4574bb5573c51424, processorArchitecture=MSIL">
       <HintPath>..\packages\DnsClient.1.0.7\lib\net45\DnsClient.dll</HintPath>
     </Reference>
-    <Reference Include="ExtentReports, Version=4.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ExtentReports.4.0.1\lib\ExtentReports.dll</HintPath>
+    <Reference Include="ExtentReports, Version=4.0.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ExtentReports.4.0.2\lib\ExtentReports.dll</HintPath>
     </Reference>
     <Reference Include="McMaster.Extensions.CommandLineUtils, Version=2.2.5.0, Culture=neutral, PublicKeyToken=6f71cb76b82f055d, processorArchitecture=MSIL">
       <HintPath>..\packages\McMaster.Extensions.CommandLineUtils.2.2.5\lib\net45\McMaster.Extensions.CommandLineUtils.dll</HintPath>
