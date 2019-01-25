@@ -1,3 +1,4 @@
+[![NuGet](https://img.shields.io/nuget/v/extent.svg)](https://www.nuget.org/packages/extent)
 ![](https://img.shields.io/github/license/extent-framework/extentreports-csharp.svg)
 
 ## Extent .NET CLI
@@ -7,6 +8,11 @@ The extentreports-dotnet-cli deprecates [ReportUnit](https://github.com/reportun
 ### Example
 
 A sample created from NUnit results.xml available [here](http://extentreports.com/docs/versions/4/net/files/dotnetcli/index.html).
+
+### Screenshots
+
+<img src="http://extentreports.com/docs/versions/4/net-cli/img/net-cli-spark-main.png" width="70%" />
+<img src="http://extentreports.com/docs/versions/4/net-cli/img/net-cli-spark-dashboard.png" width="70%" />
 
 ### CLI Args
 
