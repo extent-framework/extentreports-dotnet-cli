@@ -49,7 +49,7 @@ It is possible to specify the reporter or outputs by specifying them using `-r`:
 extent -i results/nunit.xml -o results/ -r v3html
 ```
 
-Do you use `html` and `v3html` reporters at once as this may result in clashes.
+Do not use `html` and `v3html` reporters at once as this may result in clashes.
 
 ### License
 
