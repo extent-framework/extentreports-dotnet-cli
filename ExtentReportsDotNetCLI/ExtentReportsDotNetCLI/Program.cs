@@ -1,21 +1,18 @@
-using AventStack.ExtentReports.Reporter;
-
+using AventStack.ExtentReports.CLI.Extensions;
 using AventStack.ExtentReports.CLI.Model;
 using AventStack.ExtentReports.CLI.Parser;
-
+using AventStack.ExtentReports.Reporter;
 using McMaster.Extensions.CommandLineUtils;
-
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using AventStack.ExtentReports.CLI.Extensions;
 
 namespace AventStack.ExtentReports.CLI
 {
     class Program
     {
-        private const string BaseDirectory = "Reports";
+        private const string DefaultBaseDirectory = "Reports";
 
         [Option(ShortName = "p")]
         private TestFramework Parser { get; set; } = Model.TestFramework.NUnit;
@@ -40,6 +37,9 @@ namespace AventStack.ExtentReports.CLI
 
         private void OnExecute()
         {
+
+            string output = string.IsNullOrWhiteSpace(Output) ? $".\\{DefaultBaseDirectory}" : Output;
+
             if (!string.IsNullOrEmpty(TestRunnerResultsDirectory) && File.GetAttributes(TestRunnerResultsDirectory) == FileAttributes.Directory && Parser.Equals(TestFramework.NUnit))
             {
                 List<string> files = Directory.GetFiles(TestRunnerResultsDirectory, "*." + KnownFileExtensions.GetExtension(Parser), SearchOption.AllDirectories).ToList();
@@ -47,32 +47,25 @@ namespace AventStack.ExtentReports.CLI
                 foreach (string file in files)
                 {
                     var extent = new ExtentReports();
-                    var dir = Path.Combine(Output, BaseDirectory, Path.GetFileNameWithoutExtension(file));
+                    var dir = Path.Combine(output, Path.GetFileNameWithoutExtension(file));
                     InitializeReporter(extent, dir);
                     new NUnitParser(extent).ParseTestRunnerOutput(file);
                     extent.Flush();
                 }
             }
 
-            if (!string.IsNullOrWhiteSpace(TestRunnerResultsFile) && !string.IsNullOrWhiteSpace(Output))
+            if (!string.IsNullOrWhiteSpace(TestRunnerResultsFile))
             {
                 var extent = new ExtentReports();
-                InitializeReporter(extent);
+                InitializeReporter(extent, output);
                 new NUnitParser(extent).ParseTestRunnerOutput(TestRunnerResultsFile);
                 extent.Flush();
             }
         }
-        
-        private void InitializeReporter(ExtentReports extent, string basePath = null)
-        {
-            string path = string.IsNullOrEmpty(Output) ? "./" : Output;
-            path = Path.Combine(path, BaseDirectory);
 
-            if (!string.IsNullOrEmpty(basePath))
-            {
-                path = basePath;
-            }
-            
+        private void InitializeReporter(ExtentReports extent, string path)
+        {
+
             if (Reporters.Contains("html"))
             {
                 var output = path.EndsWith("\\") || path.EndsWith("/") ? path : path + "\\";
