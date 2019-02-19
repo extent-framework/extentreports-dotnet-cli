@@ -82,6 +82,8 @@
   <ItemGroup>
     <Compile Include="Extensions\StatusExtensions.cs" />
     <Compile Include="Extensions\KnownFileExtensions.cs" />
+    <Compile Include="Logging.cs" />
+    <Compile Include="Model\LoggingLevel.cs" />
     <Compile Include="Model\TestFramework.cs" />
     <Compile Include="Parser\IParser.cs" />
     <Compile Include="Parser\NUnitParser.cs" />
