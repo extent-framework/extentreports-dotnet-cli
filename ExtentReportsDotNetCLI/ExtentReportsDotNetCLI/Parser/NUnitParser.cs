@@ -140,7 +140,10 @@ namespace AventStack.ExtentReports.CLI.Parser
             if (doc.Descendants("environment") == null)
                 return;
 
-            var env = doc.Descendants("environment").First();
+            var env = doc.Descendants("environment").FirstOrDefault();
+            if (env == null)
+                return;
+                
             if (env.Attribute("nunit-version") != null)
                 _extent.AddSystemInfo("NUnit Version", env.Attribute("nunit-version").Value);
             _extent.AddSystemInfo("OS Version", env.Attribute("os-version").Value);
