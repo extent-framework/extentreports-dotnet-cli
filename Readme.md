@@ -23,6 +23,7 @@ A sample created from NUnit results.xml available [here](http://extentreports.co
 | -o | Report output directory |
 | -r | List of Reporters [html, v3html], html (default)|
 | -p | TestRunner [NUnit] |
+| --merge | Merge multiple results file into a single report |
 
 
 ### Processing a single file
@@ -39,6 +40,12 @@ To process multiple files at once, use `-d` to specify the directory where the f
 
 ```
 extent -d results/ -o results/
+```
+
+The command above creates multiple HTML outputs, one for each results file. To combine all results into a single HTML file, use the `--merge` option:
+
+```
+extent -d results/ -o results/ --merge
 ```
 
 ### Specifying the reporter to use:
