@@ -82,6 +82,9 @@ namespace AventStack.ExtentReports.CLI.Parser
                 .Where(c => c.Attribute("name").Value.Equals("Description", StringComparison.CurrentCultureIgnoreCase));
             var description = descriptions.Any() ? descriptions.ToArray()[0].Attribute("value").Value : string.Empty;
             var node = test.CreateNode(name, description);
+            var categories = tc.Descendants("property")
+                .Where(c => c.Attribute("name").Value.Equals("Category", StringComparison.CurrentCultureIgnoreCase));
+            node.AssignCategory(categories.Select(c => c.Attribute("value").Value).ToArray());
             return node;
         }
 
