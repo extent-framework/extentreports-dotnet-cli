@@ -82,9 +82,6 @@ namespace AventStack.ExtentReports.CLI.Parser
                 .Where(c => c.Attribute("name").Value.Equals("Description", StringComparison.CurrentCultureIgnoreCase));
             var description = descriptions.Any() ? descriptions.ToArray()[0].Attribute("value").Value : string.Empty;
             var node = test.CreateNode(name, description);
-            var categories = tc.Descendants("property")
-                .Where(c => c.Attribute("name").Value.Equals("Category", StringComparison.CurrentCultureIgnoreCase));
-            node.AssignCategory(categories.Select(c => c.Attribute("value").Value).ToArray());
             return node;
         }
 
@@ -129,10 +126,12 @@ namespace AventStack.ExtentReports.CLI.Parser
                 : new Func<XElement, string, IEnumerable<XElement>>((e, s) => e.Elements(s));
 
             var categories = new HashSet<string>();
-            if (parser(elem, "categories").Any())
+            if (parser(elem, "properties").Any())
             {
-                var tags = parser(elem, "categories").Elements("category").ToList();
-                tags.ForEach(x => categories.Add(x.Attribute("name").Value));
+                var tags = parser(elem, "properties").Elements("property")
+                    .Where(c => c.Attribute("name").Value.Equals("Category", StringComparison.CurrentCultureIgnoreCase))
+                    .ToList();
+                tags.ForEach(x => categories.Add(x.Attribute("value").Value));
             }
 
             return categories;
