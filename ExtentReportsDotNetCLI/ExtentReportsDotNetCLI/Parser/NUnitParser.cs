@@ -62,7 +62,7 @@ namespace AventStack.ExtentReports.CLI.Parser
 
                 // get test suite level categories
                 var suiteCategories = ParseTags(ts, false);
-
+                test.AssignCategory(suiteCategories.ToArray());
                 // Test Cases
                 foreach (var tc in ts.Descendants("test-case").ToList())
                 {
