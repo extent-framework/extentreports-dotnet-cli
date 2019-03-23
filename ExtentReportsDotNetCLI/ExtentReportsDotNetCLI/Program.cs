@@ -88,7 +88,7 @@ namespace AventStack.ExtentReports.CLI
 
         private void ProcessSingle(string testResultsFilePath, string output, bool merge = false)
         {
-            _logger.WriteLine(LoggingLevel.Normal, $"Parsing test runner result file '{TestRunnerResultsFile}' ...");
+            _logger.WriteLine(LoggingLevel.Normal, $"Parsing test runner result file '{testResultsFilePath}' ...");
 
             // if a single report is required for each test results file (ie, no merges): 
             // must instantiate every time to clear pre-existing data
