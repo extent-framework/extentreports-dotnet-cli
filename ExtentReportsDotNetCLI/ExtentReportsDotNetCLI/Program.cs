@@ -52,7 +52,9 @@ namespace AventStack.ExtentReports.CLI
 
             string output = string.IsNullOrWhiteSpace(Output) ? $".\\{DefaultBaseDirectory}" : Output;
 
-            if (!string.IsNullOrEmpty(TestRunnerResultsDirectory) && File.GetAttributes(TestRunnerResultsDirectory) == FileAttributes.Directory && Parser.Equals(TestFramework.NUnit))
+            if (!string.IsNullOrEmpty(TestRunnerResultsDirectory) &&
+                File.GetAttributes(TestRunnerResultsDirectory).HasFlag(FileAttributes.Directory) &&
+                Parser.Equals(TestFramework.NUnit))
             {
                 string filePattern = "*." + KnownFileExtensions.GetExtension(Parser);
                 _logger.WriteLine(LoggingLevel.Normal, $"Getting test runner result files in folder '{TestRunnerResultsDirectory}' matching pattern '{filePattern}' ...");
