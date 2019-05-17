@@ -86,6 +86,7 @@
     <Compile Include="Model\LoggingLevel.cs" />
     <Compile Include="Model\TestFramework.cs" />
     <Compile Include="Parser\IParser.cs" />
+    <Compile Include="Parser\JUnitParser.cs" />
     <Compile Include="Parser\NUnitParser.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
