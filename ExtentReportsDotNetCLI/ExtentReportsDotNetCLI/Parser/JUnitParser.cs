@@ -56,7 +56,7 @@ namespace AventStack.ExtentReports.CLI.Parser
 
         private static void AssignStatusAndMessage(XElement tc, ExtentTest test)
         {
-            var error = tc.Element("error");
+            var error = tc.Elements().FirstOrDefault();
 
             if (error != null)
             {
