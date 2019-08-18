@@ -21,6 +21,7 @@ namespace AventStack.ExtentReports.CLI.Parser
         public void ParseTestRunnerOutput(string resultsFile)
         {
             var doc = XDocument.Load(resultsFile);
+            DateTime timeStampParsed;
 
             if (doc.Root == null)
             {
@@ -70,6 +71,17 @@ namespace AventStack.ExtentReports.CLI.Parser
 
                     AssignStatusAndMessage(tc, node);
                     AssignTags(tc, node);
+
+                    if (tc.Attribute("start-time") != null)
+                    {
+                        DateTime.TryParse(tc.Attribute("start-time").Value, out timeStampParsed);
+                        node.Model.StartTime = timeStampParsed;
+                    }
+                    if (tc.Attribute("end-time") != null)
+                    {
+                        DateTime.TryParse(tc.Attribute("end-time").Value, out timeStampParsed);
+                        node.Model.EndTime = timeStampParsed;
+                    }
                 }
             }
         }
