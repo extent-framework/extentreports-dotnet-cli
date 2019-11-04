@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
+using System.Web;
 
 namespace AventStack.ExtentReports.CLI.Parser
 {
@@ -108,7 +109,8 @@ namespace AventStack.ExtentReports.CLI.Parser
             statusMessage += tc.Element("output") != null ? tc.Element("output").Value.Trim() : string.Empty;
             statusMessage = (status == Status.Fail || status == Status.Error) ? MarkupHelper.CreateCodeBlock(statusMessage).GetMarkup() : statusMessage;
             statusMessage = string.IsNullOrEmpty(statusMessage) ? status.ToString() : statusMessage;
-            test.Log(status, statusMessage);
+            var statusMessageHtmlEncode = HttpUtility.HtmlEncode(statusMessage);
+            test.Log(status, statusMessageHtmlEncode);
         }
 
         private static void AssignTags(XElement tc, ExtentTest test)
