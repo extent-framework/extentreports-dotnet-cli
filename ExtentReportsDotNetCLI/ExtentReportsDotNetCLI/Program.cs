@@ -17,9 +17,7 @@ namespace AventStack.ExtentReports.CLI
         private Logger _logger;
         private ExtentReports _extent = new ExtentReports();
         private int _filesProcessed = 0;
-
-        [Option(ShortName = "p")]
-        private TestFramework Parser { get; set; } = TestFramework.NUnit;
+        static private int _errorCount;
 
         [Option(ShortName = "i")]
         private string TestRunnerResultsFile { get; set; }
@@ -40,9 +38,10 @@ namespace AventStack.ExtentReports.CLI
         private bool Merge { get; set; } = false;
 
 
-        private static void Main(string[] args)
+        private static int Main(string[] args)
         {
             CommandLineApplication.Execute<Program>(args);
+            return _errorCount;
         }
 
         private void OnExecute()
@@ -52,30 +51,34 @@ namespace AventStack.ExtentReports.CLI
 
             string output = string.IsNullOrWhiteSpace(Output) ? $".\\{DefaultBaseDirectory}" : Output;
 
-            if (!string.IsNullOrEmpty(TestRunnerResultsDirectory) && File.GetAttributes(TestRunnerResultsDirectory) == FileAttributes.Directory && Parser.Equals(TestFramework.NUnit))
+            if (!string.IsNullOrEmpty(TestRunnerResultsDirectory) &&
+                File.GetAttributes(TestRunnerResultsDirectory).HasFlag(FileAttributes.Directory))
             {
-                string filePattern = "*." + KnownFileExtensions.GetExtension(Parser);
+                string filePattern = "*.xml";
                 _logger.WriteLine(LoggingLevel.Normal, $"Getting test runner result files in folder '{TestRunnerResultsDirectory}' matching pattern '{filePattern}' ...");
 
                 List<string> files = Directory.GetFiles(TestRunnerResultsDirectory, filePattern, SearchOption.AllDirectories).ToList();
 
                 if (Merge)
                 {
-                    files.ForEach(x => ProcessSingle(x, output, true));
+                    files.ForEach(x =>
+                    {
+                        _errorCount += ProcessSingle(x, output, true);
+                    });
                 }
                 else
                 {
                     files.ForEach(x =>
                     {
                         var dir = Path.Combine(output, Path.GetFileNameWithoutExtension(x));
-                        ProcessSingle(x, dir, false);
+                        _errorCount += ProcessSingle(x, dir, false);
                     });
                 }
             }
 
             if (!string.IsNullOrWhiteSpace(TestRunnerResultsFile))
             {
-                ProcessSingle(TestRunnerResultsFile, output, true);
+                _errorCount += ProcessSingle(TestRunnerResultsFile, output, true);
             }
 
             if (_filesProcessed == 0)
@@ -83,10 +86,10 @@ namespace AventStack.ExtentReports.CLI
                 _logger.WriteLine(LoggingLevel.Normal, "Nothing to do!");
             }
 
-            _logger.WriteLine(LoggingLevel.Verbose, "extentreports-cli finished.");
+            _logger.WriteLine(LoggingLevel.Verbose, $"extentreports-cli finished.  {_errorCount} errors.");
         }
 
-        private void ProcessSingle(string testResultsFilePath, string output, bool merge = false)
+        private int ProcessSingle(string testResultsFilePath, string output, bool merge = false)
         {
             _logger.WriteLine(LoggingLevel.Normal, $"Parsing test runner result file '{testResultsFilePath}' ...");
 
@@ -103,10 +106,12 @@ namespace AventStack.ExtentReports.CLI
             }
 
             new NUnitParser(_extent).ParseTestRunnerOutput(testResultsFilePath);
+            new JUnitParser(_extent).ParseTestRunnerOutput(testResultsFilePath);
             _extent.Flush();
             _filesProcessed++;
 
             _logger.WriteLine(LoggingLevel.Normal, $"Report for '{testResultsFilePath}' is complete.");
+            return _extent.Stats.ChildCountFail;
         }
 
         private void InitializeReporter(ExtentReports extent, string path)
