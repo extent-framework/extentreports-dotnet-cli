@@ -155,15 +155,21 @@ namespace AventStack.ExtentReports.CLI.Parser
             var env = doc.Descendants("environment").FirstOrDefault();
             if (env == null)
                 return;
-                
-            if (env.Attribute("nunit-version") != null)
-                _extent.AddSystemInfo("NUnit Version", env.Attribute("nunit-version").Value);
-            _extent.AddSystemInfo("OS Version", env.Attribute("os-version").Value);
-            _extent.AddSystemInfo("Platform", env.Attribute("platform").Value);
-            _extent.AddSystemInfo("CLR Version", env.Attribute("clr-version").Value);
-            _extent.AddSystemInfo("Machine Name", env.Attribute("machine-name").Value);
-            _extent.AddSystemInfo("User", env.Attribute("user").Value);
-            _extent.AddSystemInfo("User Domain", env.Attribute("user-domain").Value);
+
+            if (env.Attribute("os-version") != null)
+                _extent.AddSystemInfo("NUnit Version", env.Attribute("os-version").Value);
+            if (env.Attribute("os-version") != null)
+                _extent.AddSystemInfo("OS Version", env.Attribute("os-version").Value);
+            if (env.Attribute("platform") != null)
+                _extent.AddSystemInfo("Platform", env.Attribute("platform").Value);
+            if (env.Attribute("clr-version") != null)
+                _extent.AddSystemInfo("CLR Version", env.Attribute("clr-version").Value);
+            if (env.Attribute("machine-name") != null)
+                _extent.AddSystemInfo("Machine Name", env.Attribute("machine-name").Value);
+            if (env.Attribute("user") != null)
+                _extent.AddSystemInfo("User", env.Attribute("user").Value);
+            if (env.Attribute("user-domain") != null)
+                _extent.AddSystemInfo("User Domain", env.Attribute("user-domain").Value);
         }
     }
 }
