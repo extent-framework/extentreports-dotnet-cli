@@ -63,7 +63,7 @@ namespace AventStack.ExtentReports.CLI.Parser
 
                 // get test suite level categories
                 var suiteCategories = ParseTags(ts, false);
-
+                test.AssignCategory(suiteCategories.ToArray());
                 // Test Cases
                 foreach (var tc in ts.Descendants("test-case").ToList())
                 {
@@ -138,10 +138,12 @@ namespace AventStack.ExtentReports.CLI.Parser
                 : new Func<XElement, string, IEnumerable<XElement>>((e, s) => e.Elements(s));
 
             var categories = new HashSet<string>();
-            if (parser(elem, "categories").Any())
+            if (parser(elem, "properties").Any())
             {
-                var tags = parser(elem, "categories").Elements("category").ToList();
-                tags.ForEach(x => categories.Add(x.Attribute("name").Value));
+                var tags = parser(elem, "properties").Elements("property")
+                    .Where(c => c.Attribute("name").Value.Equals("Category", StringComparison.CurrentCultureIgnoreCase))
+                    .ToList();
+                tags.ForEach(x => categories.Add(x.Attribute("value").Value));
             }
 
             return categories;
