@@ -21,7 +21,7 @@ A sample created from NUnit results.xml available [here](http://extentreports.co
 | -i | TestRunner results file |
 | -d | TestRunner results directory to process multiple files at once |
 | -o | Report output directory |
-| -r | List of Reporters [html, v3html], html (default)|
+| -r | List of Reporters, html (default)|
 | -p | TestRunner [NUnit] |
 | --merge | Merge multiple results file into a single report |
 
@@ -53,10 +53,8 @@ extent -d results/ -o results/ --merge
 It is possible to specify the reporter or outputs by specifying them using `-r`:
 
 ```
-extent -i results/nunit.xml -o results/ -r v3html
+extent -i results/nunit.xml -o results/ -r html
 ```
-
-Do not use `html` and `v3html` reporters at once as this may result in clashes.
 
 ### License
 

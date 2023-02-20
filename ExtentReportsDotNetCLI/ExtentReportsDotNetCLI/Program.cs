@@ -122,13 +122,6 @@ namespace AventStack.ExtentReports.CLI
                 extent.AttachReporter(new ExtentHtmlReporter(output));
                 _logger.WriteLine(LoggingLevel.Normal, $"The html report will be output to the folder '{output}'.");
             }
-
-            if (Reporters.Contains("v3html"))
-            {
-                var output = Path.Combine(path, "index.html");
-                extent.AttachReporter(new ExtentV3HtmlReporter(output));
-                _logger.WriteLine(LoggingLevel.Normal, $"The v3html report will be output to '{output}'.");
-            }
         }
     }
 }
